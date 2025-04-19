@@ -1,13 +1,13 @@
 {
   "name": "shared",
   "version": "1.0.0",
-  "private": true, // Verhindert versehentliches Veröffentlichen
-  "main": "dist/index.js", // Kompiliertes JS
-  "types": "dist/index.d.ts", // Typdefinitionen
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc" // TypeScript kompilieren
+    "build": "tsc"
   },
   "devDependencies": {
-    "typescript": "^5.x.x" // Beispielversion
+    "typescript": "^5.x.x"
   }
 }
