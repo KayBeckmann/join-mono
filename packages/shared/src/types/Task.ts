@@ -14,7 +14,7 @@ export enum TaskPriority {
 }
 
 export interface Subtask {
-  id?: number | string; // Optional, je nachdem ob vom Backend oder Frontend generiert
+  id: number | string; // Optional, je nachdem ob vom Backend oder Frontend generiert
   description: string;
   done: boolean;
 }
@@ -32,7 +32,7 @@ export interface Task {
   priority: TaskPriority;
   category: Category; // Oder nur categoryId: number | string;
   assignedTo: Array<number | string>; // Array von User-IDs
-  dueDate: number; // UNIX Timestamp (wie im alten Code)
+  dueDate: Date; // UNIX Timestamp (wie im alten Code)
   state: TaskState;
   subtask: Subtask[];
 }
