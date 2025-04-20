@@ -10,12 +10,12 @@ const router = createRouter({
       component: DashboardView
     },
     // ... andere Routen (z.B. /board, /login, etc.)
-    // {
-    //    path: '/board',
-    //    name: 'board',
-    //    // Lazy-loaded component
-    //    component: () => import('../views/BoardView.vue') // Beispiel für BoardView
-    //  },
+    {
+       path: '/board',
+       name: 'board',
+       // Lazy-loaded component
+       component: () => import('../views/BoardView.vue') // Beispiel für BoardView
+     },
   ]
 });
 
