@@ -1,118 +1,122 @@
-# Join-Mono
+# Join Kanban Board (Monorepo Refactor)
 
-## Projektbeschreibung
+Dieses Projekt ist eine modernisierte Version des ursprünglichen "Join" Kanban-Board-Projekts[cite: 1], neu aufgebaut als Monorepo mit einem Vue 3 Frontend und einem Express.js Backend. Es nutzt moderne Webtechnologien für eine verbesserte Struktur, Wartbarkeit und potenzielle Offline-Fähigkeiten.
 
-`Join-Mono` ist ein Monorepo, das eine Full-Stack-Anwendung beherbergt. Es besteht aus einem Backend (Node.js), einem Frontend (Vue.js) und einem gemeinsamen Paket für geteilte Typdefinitionen und Schnittstellen. Das Projekt ist darauf ausgelegt, eine effiziente Entwicklung und Verwaltung von miteinander verbundenen Diensten zu ermöglichen.
+## ✨ Features (Aktuell & Geplant)
 
-## Funktionen
+- **Kanban Board:** Visuelle Darstellung von Tasks in Spalten (ToDo, In Bearbeitung, etc.).
+- **Task Management:** Erstellen, Anzeigen, Bearbeiten (teilweise implementiert) und Löschen von Tasks (teilweise implementiert).
+- **Drag & Drop:** Verschieben von Tasks zwischen Status-Spalten.
+- **Lokale Persistenz:** Nutzung von Dexie.js (IndexedDB) im Frontend für schnellen Zugriff und grundlegende Offline-Anzeige.
+- **(Geplant):** Vollständige Offline-Synchronisation mit Konfliktlösung.
+- **(Geplant):** Benutzer-Authentifizierung (Login/Signup).
+- **(Geplant):** Kontaktverwaltung.
+- **(Geplant):** Übersichts-Dashboard (teilweise implementiert).
+- **(Geplant):** Subtasks.
 
-*   **Backend:** Robuste API-Endpunkte für Datenverwaltung (z.B. Aufgaben).
-*   **Frontend:** Interaktive Benutzeroberfläche zur Anzeige und Verwaltung von Daten.
-*   **Shared:** Gemeinsame TypeScript-Typen und Schnittstellen zur Sicherstellung der Konsistenz zwischen Frontend und Backend.
-*   **Monorepo-Struktur:** Vereinfacht die Abhängigkeitsverwaltung und Code-Wiederverwendung über verschiedene Pakete hinweg.
+## 🚀 Tech Stack
 
-## Technologien
+- **Monorepo:** [pnpm Workspaces](https://pnpm.io/workspaces)
+- **Frontend (`packages/frontend`):**
+  - [Vue 3](https://vuejs.org/) (mit Composition API & `<script setup>`)
+  - [Vite](https://vitejs.dev/) (Build-Tool / Dev-Server)
+  - [Pinia](https://pinia.vuejs.org/) (State Management)
+  - [Vue Router](https://router.vuejs.org/) (Client-seitiges Routing)
+  - [Dexie.js](https://dexie.org/) (Wrapper für IndexedDB)
+  - (Optional/Empfohlen: [TypeScript](https://www.typescriptlang.org/))
+- **Backend (`packages/backend`):**
+  - [Node.js](https://nodejs.org/)
+  - [Express.js](https://expressjs.com/) (Web-Framework)
+  - [Sequelize](https://sequelize.org/) (ORM - Object-Relational Mapper)
+  - [SQLite](https://www.sqlite.org/) (SQL-Datenbank)
+  - [CORS](https://www.npmjs.com/package/cors) (Cross-Origin Resource Sharing Middleware)
+  - (Optional/Empfohlen: [TypeScript](https://www.typescriptlang.org/))
+- **Shared (`packages/shared`):**
+  - [TypeScript](https://www.typescriptlang.org/) (Für geteilte Typen/Interfaces zur Datensicherheit)
 
-### Backend
-*   Node.js
-*   Express.js (vermutlich, basierend auf `server.js` und `controllers`)
-*   TypeScript (für Controller)
-*   JavaScript (für Models und Server)
+## 📁 Projektstruktur
 
-### Frontend
-*   Vue.js
-*   Vite (Build-Tool)
-*   JavaScript
+Das Projekt ist als Monorepo organisiert:
 
-### Shared
-*   TypeScript
+- `packages/`: Enthält die einzelnen Anwendungs- und Bibliotheksteile.
+  - `frontend/`: Die Vue 3 Single-Page Application.
+  - `backend/`: Der Express.js API-Server.
+  - `shared/`: Code (hauptsächlich TypeScript-Typen/-Interfaces), der von Frontend und Backend gemeinsam genutzt wird.
 
-### Monorepo-Management
-*   pnpm (basierend auf `pnpm-lock.yaml` und `pnpm-workspace.yaml`)
+## 🛠️ Voraussetzungen
 
-## Erste Schritte
+- [Node.js](https://nodejs.org/) (LTS-Version empfohlen, z.B. v18 oder höher)
+- [pnpm](https://pnpm.io/installation) (Package Manager)
+- [Git](https://git-scm.com/)
+- **(Potenziell für `sqlite3`) Build Tools:** Auf manchen Systemen werden C++ Compiler und Python benötigt, um native Abhängigkeiten wie `sqlite3` zu bauen.
+  - **Debian/Ubuntu:** `sudo apt update && sudo apt install -y build-essential python3 make g++`
+  - **macOS:** Xcode Command Line Tools (`xcode-select --install`)
+  - **Windows:** `npm install --global windows-build-tools` (als Administrator) oder Visual Studio mit C++ Build Tools.
 
-Um das Projekt lokal einzurichten und auszuführen, folge diesen Schritten:
+## ⚙️ Setup & Installation
 
-### Voraussetzungen
-
-Stelle sicher, dass du `Node.js` und `pnpm` installiert hast.
-
-*   **Node.js:** [https://nodejs.org/](https://nodejs.org/)
-*   **pnpm:** [https://pnpm.io/](https://pnpm.io/)
-
-### Installation
-
-1.  Klone das Repository:
+1.  **Repository klonen:**
     ```bash
-    git clone https://github.com/dein-benutzername/join-mono.git
-    cd join-mono
+    git clone <repository-url>
+    cd join-monorepo
     ```
-
-2.  Installieren der Abhängigkeiten für alle Pakete im Monorepo:
+2.  **Abhängigkeiten installieren:**
+    Installiert alle Abhängigkeiten für alle Pakete im Workspace vom Root-Verzeichnis aus.
     ```bash
     pnpm install
     ```
+3.  **Geteiltes Paket bauen:**
+    Kompiliert den TypeScript-Code im `shared`-Paket, damit er von Frontend und Backend importiert werden kann.
+    ```bash
+    pnpm run build:shared
+    ```
+4.  **(Falls `sqlite3` Probleme macht):** Wenn das Backend beim Starten Fehler bezüglich `sqlite3`-Bindings wirft (trotz installierter Build-Tools), versuche Folgendes im Root-Verzeichnis:
+    ```bash
+    # Erst entfernen
+    pnpm remove sqlite3 -F backend
+    # Dann neu installieren und Build erzwingen
+    pnpm add sqlite3 -F backend --ignore-scripts=false
+    ```
+    Oder alternativ:
+    ```bash
+    pnpm rebuild sqlite3 -F backend
+    ```
 
-### Ausführen der Anwendung
+## ▶️ Anwendung starten (Entwicklungsmodus)
 
-#### Backend starten
+Um Frontend und Backend gleichzeitig im Entwicklungsmodus (mit Hot-Reloading) zu starten:
 
-Navigiere in das Backend-Verzeichnis und starte den Server:
-```bash
-cd packages/backend
-node src/server.js # Oder der entsprechende Startbefehl, z.B. `npm start` oder `pnpm start`
-```
-*Hinweis: Überprüfe die `package.json` im `backend`-Verzeichnis für den genauen Startbefehl.*
+1.  **Führe im Root-Verzeichnis aus:**
+    ```bash
+    pnpm run dev
+    ```
+2.  Dies startet:
+    - Das **Backend** (mit `nodemon` für automatische Neustarts) normalerweise auf `http://localhost:3000`. Achte auf die Konsolenausgabe `🚀 Backend-Server läuft auf Port 3000`.
+    - Das **Frontend** (mit Vite Dev Server) normalerweise auf `http://localhost:5173/`. Öffne diese URL im Browser.
 
-#### Frontend starten
+**Individuelles Starten:**
 
-Navigiere in das Frontend-Verzeichnis und starte die Entwicklungsserver:
-```bash
-cd packages/frontend
-pnpm dev # Oder der entsprechende Startbefehl, z.B. `npm run dev`
-```
-Die Frontend-Anwendung sollte dann unter `http://localhost:5173` (oder einem anderen von Vite zugewiesenen Port) verfügbar sein.
+- Nur Frontend: `pnpm --filter frontend dev`
+- Nur Backend: `pnpm --filter backend dev`
 
-## Projektstruktur
+## 🗄️ Datenbank
 
-```
-.
-├── packages/
-│   ├── backend/          # Node.js Backend-Anwendung
-│   │   ├── src/          # Quellcode des Backends
-│   │   │   ├── server.js
-│   │   │   ├── config/
-│   │   │   ├── controllers/
-│   │   │   └── models/
-│   │   └── ...
-│   ├── frontend/         # Vue.js Frontend-Anwendung
-│   │   ├── src/          # Quellcode des Frontends
-│   │   │   ├── assets/
-│   │   │   ├── components/
-│   │   │   ├── router/
-│   │   │   ├── stores/
-│   │   │   └── views/
-│   │   └── ...
-│   └── shared/           # Gemeinsame Typdefinitionen und Schnittstellen
-│       ├── src/
-│       │   └── types/    # TypeScript-Typen (z.B. Task.ts, User.ts)
-│       └── ...
-├── .gitignore
-├── package.json          # Monorepo-Root-Paketkonfiguration
-├── pnpm-lock.yaml        # pnpm Lock-Datei
-├── pnpm-workspace.yaml   # pnpm Workspace-Konfiguration
-└── README.md             # Diese Datei
-```
+- Das Backend verwendet **SQLite**.
+- Die Datenbankdatei (`database.sqlite`) wird automatisch im Verzeichnis `packages/backend/db/` erstellt, wenn der Backend-Server das erste Mal startet und die Sequelize-Synchronisation (`sequelize.sync()`) erfolgreich ist.
+- Um die Datenbank zurückzusetzen (Daten löschen und Tabellen neu erstellen):
+  1.  Stoppe das Backend.
+  2.  Lösche die Datei `packages/backend/db/database.sqlite`.
+  3.  Ändere in `packages/backend/src/server.js` kurzzeitig `sequelize.sync({ force: false })` zu `sequelize.sync({ force: true })`.
+  4.  Starte das Backend neu (`pnpm --filter backend dev`). Die Tabellen werden neu erstellt.
+  5.  **WICHTIG:** Ändere es danach wieder zurück zu `sequelize.sync({ force: false })`, um versehentliches Datenlöschen zu vermeiden!
 
-## Mitwirken
+## 📝 TODO / Zukünftige Entwicklung
 
-Beiträge sind willkommen! Bitte beachte die folgenden Richtlinien:
-1.  Forke das Repository.
-2.  Erstelle einen neuen Branch für deine Änderungen.
-3.  Stelle sicher, dass dein Code den bestehenden Stilrichtlinien entspricht.
-4.  Erstelle einen Pull Request mit einer klaren Beschreibung deiner Änderungen.
-
-## Lizenz
-
-Dieses Projekt ist unter der [LICENSE](LICENSE)-Datei lizenziert.
+- Vollständige Implementierung des Task-Erstellungs-/Bearbeitungs-Modals.
+- Implementierung der API-Aufrufe im Frontend (Pinia Store) für CRUD-Operationen.
+- Implementierung der Benutzer-/Kontaktverwaltung (Frontend & Backend).
+- Implementierung der Benutzer-Authentifizierung.
+- Ausbau der Offline-Fähigkeiten (Sync-Queue, Konfliktlösung).
+- Implementierung von Subtasks.
+- Verbesserung der UI/UX basierend auf dem ursprünglichen Design.
+- Hinzufügen von Unit- und E2E-Tests.
